@@ -1,24 +1,24 @@
 {
   "files": {
-    "main.css": "/Api-Account-App/static/css/main.c6aab55b.chunk.css",
-    "main.js": "/Api-Account-App/static/js/main.9386908e.chunk.js",
-    "main.js.map": "/Api-Account-App/static/js/main.9386908e.chunk.js.map",
-    "runtime-main.js": "/Api-Account-App/static/js/runtime-main.354210cf.js",
-    "runtime-main.js.map": "/Api-Account-App/static/js/runtime-main.354210cf.js.map",
-    "static/js/2.cc335743.chunk.js": "/Api-Account-App/static/js/2.cc335743.chunk.js",
-    "static/js/2.cc335743.chunk.js.map": "/Api-Account-App/static/js/2.cc335743.chunk.js.map",
-    "index.html": "/Api-Account-App/index.html",
-    "precache-manifest.24e8e1631cdfa8069a5fa65fc14c8525.js": "/Api-Account-App/precache-manifest.24e8e1631cdfa8069a5fa65fc14c8525.js",
-    "service-worker.js": "/Api-Account-App/service-worker.js",
-    "static/css/main.c6aab55b.chunk.css.map": "/Api-Account-App/static/css/main.c6aab55b.chunk.css.map",
-    "static/js/2.cc335743.chunk.js.LICENSE.txt": "/Api-Account-App/static/js/2.cc335743.chunk.js.LICENSE.txt",
-    "static/media/App.css": "/Api-Account-App/static/media/background.7ef4cb1e.png",
-    "static/media/loading2.gif": "/Api-Account-App/static/media/loading2.82658e18.gif"
+    "main.css": "/AAA-Display-Example/static/css/main.cad57901.chunk.css",
+    "main.js": "/AAA-Display-Example/static/js/main.9386908e.chunk.js",
+    "main.js.map": "/AAA-Display-Example/static/js/main.9386908e.chunk.js.map",
+    "runtime-main.js": "/AAA-Display-Example/static/js/runtime-main.ea743913.js",
+    "runtime-main.js.map": "/AAA-Display-Example/static/js/runtime-main.ea743913.js.map",
+    "static/js/2.cc335743.chunk.js": "/AAA-Display-Example/static/js/2.cc335743.chunk.js",
+    "static/js/2.cc335743.chunk.js.map": "/AAA-Display-Example/static/js/2.cc335743.chunk.js.map",
+    "index.html": "/AAA-Display-Example/index.html",
+    "precache-manifest.82dba00eed82d319ecfbdf256418b0f8.js": "/AAA-Display-Example/precache-manifest.82dba00eed82d319ecfbdf256418b0f8.js",
+    "service-worker.js": "/AAA-Display-Example/service-worker.js",
+    "static/css/main.cad57901.chunk.css.map": "/AAA-Display-Example/static/css/main.cad57901.chunk.css.map",
+    "static/js/2.cc335743.chunk.js.LICENSE.txt": "/AAA-Display-Example/static/js/2.cc335743.chunk.js.LICENSE.txt",
+    "static/media/App.css": "/AAA-Display-Example/static/media/background.7ef4cb1e.png",
+    "static/media/loading2.gif": "/AAA-Display-Example/static/media/loading2.82658e18.gif"
   },
   "entrypoints": [
-    "static/js/runtime-main.354210cf.js",
+    "static/js/runtime-main.ea743913.js",
     "static/js/2.cc335743.chunk.js",
-    "static/css/main.c6aab55b.chunk.css",
+    "static/css/main.cad57901.chunk.css",
     "static/js/main.9386908e.chunk.js"
   ]
 }
