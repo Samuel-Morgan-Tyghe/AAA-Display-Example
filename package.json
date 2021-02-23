@@ -1,7 +1,7 @@
 {
   "name": "api-account-app",
   "version": "0.1.0",
-  "homepage": "http://Samuel-Morgan-Tyghe.github.io/Api-Account-App",
+  "homepage": "http://Samuel-Morgan-Tyghe.github.io/AAA-Display-Example",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
