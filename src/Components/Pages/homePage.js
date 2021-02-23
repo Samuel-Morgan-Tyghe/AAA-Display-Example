@@ -5,6 +5,16 @@ import { Redirect } from "react-router-dom";
 import deleteIcon from "../../Assets/cancel.png";
 import fakeLogo from "../../Assets/fakeLogo.png";
 
+import { tempDatabase } from "./tempDatabase";
+
+if (localStorage.getItem("Database") == null) {
+          // console.log('email submitted')
+
+  localStorage.setItem("Database", JSON.stringify(tempDatabase));
+}
+let database = JSON.parse(localStorage.getItem("Database"));
+
+// console.log(database);
 class Homepage extends React.Component {
   constructor(props) {
     super(props);
@@ -38,50 +48,49 @@ class Homepage extends React.Component {
   }
 
   componentDidMount = () => {
-    this.setState({ tempUser: [] });
-    axios({
-      method: "get",
-      url: "http://localhost:3000/AAAUsers",
-    }).then(
-      (response) => {
-        this.setState({ loadingIcon: "loadingIcon" });
-
-        this.setState({
-          tempApiList: response.data,
-        });
-
-        this.setState({ loadingIcon: "hideIcon" });
-      },
-      (error) => {
-        alert("Error: " + error);
-        console.log(error);
+    database = JSON.parse(localStorage.getItem("Database"));
+    for (let i = 0; i < database.length; i++) {
+        database[i].id = i
+        localStorage.setItem("Database", JSON.stringify(database));
       }
-    );
+        
+        
+        
+
+    this.setState({ loadingIcon: "loadingIcon" });
+    this.setState({ tempUser: [] });
+    // console.log(database)
+    this.setState({
+      tempApiList: database,
+    });
+
+    this.setState({ loadingIcon: "hideIcon" });
   };
 
   updateUser = (i, event) => {
+    this.setState({ loadingIcon: "hideIcon" });
+
     const id = event.target.value;
     const userdata = this.state.tempApiList.map((item, j) => {
       if (item.id == id) {
-        axios({
-          method: "PATCH",
-          url: "http://localhost:3000/AAAUsers/" + id,
+        // axios({
+        //   method: "get",
+        //   url: `./AAAdb.json` ,
+        // })
+        // .then((response) => {
+        // console.log(database);
 
-          data: {
-            email: item.email,
-            first_name: item.first_name,
-            last_name: item.last_name,
-            password: item.password,
-            avatar: item.avatar,
-          },
-        })
-          .then((response) => {
-            this.setState({ loadingIcon: "hideIcon" });
-            this.componentDidMount();
-          })
-          .catch((error) => {
-            console.log(error);
-          });
+        for (let i = 0; i < database.length; i++) {
+          if (database[i].id == id) {
+            database[i].email = item.email;
+            database[i].first_name = item.first_name;
+            database[i].last_name = item.last_name;
+            database[i].password = item.password;
+            database[i].avatar = item.avatar;
+            localStorage.setItem("Database", JSON.stringify(database));
+          }
+        }
+        this.componentDidMount();
       }
     });
 
@@ -91,50 +100,47 @@ class Homepage extends React.Component {
   deleteUser(email, id, event) {
     this.setState({ loadingIcon: "loadingIcon" }); // makes loading icon show
 
-    axios({
-      method: "DELETE",
-      url: "http://localhost:3000/AAAUsers/" + id, //find user by id then deletes it
-    })
-      .then((response) => {
-        if (email === this.state.logUser.email) {
-          alert("you fool, you deleted yourself");
+    for (let i = 0; i < database.length; i++) {
+      if (database[i].id == id) {
+        delete database[i];
+        database = database.filter(function (x) {
+          return x !== null;
+        });
+        // console.log(database);
+        localStorage.setItem("Database", JSON.stringify(database));
+      }
+    }
 
-          this.setState({ redirect: true });
-        }
+    if (email === this.state.logUser.email) {
+      alert("you fool, you deleted yourself");
 
-        this.componentDidMount();
-        this.setState({ loadingIcon: "hideIcon" }); // hides loading icon
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+      this.setState({ redirect: true });
+    }
+    this.setState({ loadingIcon: "hideIcon" }); // hides loading icon
+
+    this.componentDidMount();
   }
 
   addUser = () => {
     this.setState({ loadingIcon: "loadingIcon" });
 
-    axios({
-      method: "post",
-      url: "http://localhost:3000/AAAUsers",
-      data: {
-        email: "Email@email.com",
-        first_name: "First_Name",
-        last_name: "Last_Name",
-        password: "Password",
-        avatar:
-          "https://randomuser.me/api/portraits/lego/" +
+    let newUser = {
+      email: "Email@email.com",
+      first_name: "First_Name",
+      last_name: "Last_Name",
+      password: "Password",
+      avatar:   "https://randomuser.me/api/portraits/lego/" +
           Math.floor(Math.random() * 10) +
           ".jpg",
-        id: 0,
-      },
-    })
-      .then((response) => {
-        this.setState({ loadingIcon: "hideIcon" });
-        this.componentDidMount();
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+      id: 17,
+    };
+    database.push(newUser);
+    localStorage.setItem("Database", JSON.stringify(database));
+
+
+    this.setState({ loadingIcon: "hideIcon" });
+    this.componentDidMount();
+  
   };
 
   findValue(id) {
@@ -179,7 +185,7 @@ class Homepage extends React.Component {
     }
 
     if (this.state.redirect) {
-      localStorage.clear();
+      localStorage.removeItem('logUser');
       return <Redirect to="/" />;
     }
 

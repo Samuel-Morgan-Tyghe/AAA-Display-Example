@@ -1,7 +1,12 @@
 import React from "react";
 import axios from "axios";
 import isEmail from "validator/lib/isEmail";
+import { tempDatabase } from "./tempDatabase";
 
+if (localStorage.getItem("Database") == null) {
+  localStorage.setItem("Database", JSON.stringify(tempDatabase));
+}
+let database = JSON.parse(localStorage.getItem("Database"));
 let email;
 class EmailValidate extends React.Component {
   constructor(props) {
@@ -30,32 +35,24 @@ class EmailValidate extends React.Component {
 
   handleSubmit(event) {
     email = this.state.value;
-
-    axios({
-      method: "get",
-      url: "http://localhost:3000/AAAUsers?email=" + email,
-    }).then(
-      (response) => {
-        if (response.data.length === 0) {
-          // checks if email exists
-
-          this.setState({ redirect: "/CreateAccountForm" });
+    let doesEmailExist = false
+    for (let i = 0; i < database.length; i++) {
+      if (database[i].email == email) {
+        doesEmailExist = true
+      }
+    }
+      if(!doesEmailExist){
+        this.setState({ redirect: "/CreateAccountForm" });
         } else {
           this.setState({ redirect: "/LoginForm" });
         }
-
         this.props.history.push({
           pathname: this.state.redirect,
           data: { email: this.state.value },
         });
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
-
     event.preventDefault();
-  }
+  
+}
 
   render() {
     return (

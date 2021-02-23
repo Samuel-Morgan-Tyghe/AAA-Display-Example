@@ -5,7 +5,12 @@ import { Link } from "react-router-dom";
 import isEmail from "validator/lib/isEmail";
 
 import EmailValidate from "./emailValidate.js";
+import { tempDatabase } from "./tempDatabase";
 
+if (localStorage.getItem("Database") == null) {
+  localStorage.setItem("Database", JSON.stringify(tempDatabase));
+}
+let database = JSON.parse(localStorage.getItem("Database"));
 class CreateAccountForm extends React.Component {
   constructor(props) {
     super(props);
@@ -29,6 +34,8 @@ class CreateAccountForm extends React.Component {
   }
 
   componentDidMount() {
+    database = JSON.parse(localStorage.getItem("Database"));
+
     // passes email from validate
     try {
       this.setState({ email: this.props.location.data.email });
@@ -51,21 +58,19 @@ class CreateAccountForm extends React.Component {
       if (!isEmail(value)) {
         this.setState({ emailClass: "emailClass flagValidator" });
       } else {
-        axios({
-          method: "get",
-          url: "http://localhost:3000/AAAUsers?email=" + value,
-        }).then(
-          (response) => {
-            if (response.data.length === 0) {
-              this.setState({ emailInUse: "emailInUse" });
-            } else {
-              this.setState({ emailInUse: "flagEmailInUse" });
-            }
-          },
-          (error) => {
-            console.log(error);
+        for (let i = 0; i < database.length; i++) {
+          if (database[i].email != value) {
+            this.setState({ emailInUse: "emailInUse" });
+            // console.log("email deoesnt exists");
+
+            break;
+          } else {
+            this.setState({ emailInUse: "flagEmailInUse" });
+            // console.log("email exists");
+
+            break;
           }
-        );
+        }
         this.setState({ emailClass: "emailClass" });
       }
     }
@@ -113,30 +118,20 @@ class CreateAccountForm extends React.Component {
           ".jpg";
       }
 
-      axios({
-        method: "get",
-        url: "http://localhost:3000/AAAUsers?email=" + user.email,
-      }).then(
-        (response) => {
-          if (response.data.length === 0) {
-            //if email is not taken
-            user.id = response.data.id;
-            axios({
-              method: "post",
-              url: "http://localhost:3000/AAAUsers",
-              data: user,
-            }).then((response) => {
-              localStorage.clear();
-              localStorage.setItem("logUser", JSON.stringify(user));
-              this.setState({ redirect: "/homepage" });
-            });
-          } else {
-          }
-        },
-        (error) => {
-          console.log(error);
+      let doesEmailExist = false;
+      for (let i = 0; i < database.length; i++) {
+        if (database[i].email != user.email) {
+          doesEmailExist = true;
         }
-      );
+      }
+      if (doesEmailExist) {
+        // console.log('email submitted')
+        database.push(user);
+        localStorage.setItem("Database", JSON.stringify(database));
+        localStorage.setItem("logUser", JSON.stringify(user));
+        this.setState({ redirect: "/homepage" });
+      } else {
+      }
     }
     event.preventDefault();
   }

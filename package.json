@@ -1,6 +1,7 @@
 {
   "name": "api-account-app",
   "version": "0.1.0",
+  "homepage": "http://Samuel-Morgan-Tyghe.github.io/Api-Account-App",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
@@ -15,6 +16,8 @@
   },
   "scripts": {
     "start": "set PORT=3001 && react-scripts start ",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -36,7 +39,9 @@
   },
   "devDependencies": {
     "browser-sync": "^2.26.13",
+    "gh-pages": "^3.1.0",
     "gulp": "^4.0.2",
-    "gulp-sass": "^4.1.0"
+    "gulp-sass": "^4.1.0",
+    "json-loader": "^0.5.7"
   }
 }

@@ -4,6 +4,14 @@ import axios from "axios";
 import { Redirect } from "react-router-dom";
 import { Link } from "react-router-dom";
 import isEmail from "validator/lib/isEmail";
+
+
+import { tempDatabase } from "./tempDatabase";
+
+if (localStorage.getItem("Database") == null) {
+  localStorage.setItem("Database", JSON.stringify(tempDatabase));
+}
+let database = JSON.parse(localStorage.getItem("Database"));
 class LoginForm extends React.Component {
   constructor(props) {
     super(props);
@@ -31,6 +39,8 @@ class LoginForm extends React.Component {
   }
 
   componentDidMount() {
+    database = JSON.parse(localStorage.getItem("Database"));
+
     // passes email from validate
     try {
       this.setState({ email: this.props.location.data.email });
@@ -53,24 +63,28 @@ class LoginForm extends React.Component {
       //check and get email is it in database?
       this.setState({ submitBool: false });
 
-      if (isEmail(event.target.value)) {
-        axios({
-          method: "get",
-          url: "http://localhost:3000/AAAUsers?email=" + value,
-        }).then(
-          (response) => {
-            if (response.data.length === 0) {
-              this.setState({ emailNotInUse: "emailNotInUse flagEmailInUse" });
-            } else {
-              this.setState({ submitBool: true });
 
-              this.setState({ emailNotInUse: "emailNotInUse" });
-            }
-          },
-          (error) => {
-            console.log(error);
-          }
-        );
+     
+
+
+      if (isEmail(event.target.value)) {
+        let emailExists = false
+     for (let i = 0; i < database.length; i++) {
+        if (database[i].email == value) {
+          emailExists = true
+        }
+      }
+
+      if(emailExists){
+        this.setState({ emailNotInUse: "emailNotInUse flagEmailInUse" });
+      } else {
+        this.setState({ submitBool: true });
+
+        this.setState({ emailNotInUse: "emailNotInUse" });
+      
+
+      }
+
 
         this.setState({ emailClass: "emailClass" });
       }
@@ -87,32 +101,28 @@ class LoginForm extends React.Component {
     };
 
     if (this.state.submitBool) {
-      axios({
-        method: "get",
-        url: "http://localhost:3000/AAAUsers?email=" + user.email,
-      }).then(
-        (response) => {
-          if (response.data[0].password === user.password) {
-            // does password match with database
-            user.first_name = response.data[0].first_name;
-            user.last_name = response.data[0].last_name;
-            user.avatar = response.data[0].avatar;
-            localStorage.clear();
-            localStorage.setItem("logUser", JSON.stringify(user));
 
+      for (let i = 0; i < database.length; i++) {
+      
+
+        if (database[i].email == user.email) {
+          if(database[i].password == user.password){
+            user.first_name = database[i].first_name;
+            user.last_name = database[i].last_name;
+            user.avatar = database[i].avatar;
+            localStorage.setItem("Database", JSON.stringify(database));
+            localStorage.setItem("logUser", JSON.stringify(user));
             this.setState({ redirect: "/homepage" });
           } else {
             this.setState({ wrongPassword: "flagWrongPassword" });
           }
-        },
-        (error) => {
-          console.log(error);
         }
-      );
+     
     }
 
     event.preventDefault();
   }
+}
 
   render() {
     if (this.state.redirect) {
