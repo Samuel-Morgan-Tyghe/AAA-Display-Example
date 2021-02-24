@@ -9,7 +9,7 @@ import HomePage from "./Components/Pages/homePage.js";
 function App() {
   return (
     <div className="App">
-      <Router>
+      <Router basename={process.env.PUBLIC_URL} >
         {/* <Nav /> */}
         <Switch>
           <Route path="/" component={EmailValidate} exact />
