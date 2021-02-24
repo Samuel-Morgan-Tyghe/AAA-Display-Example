@@ -1,22 +1,9 @@
-# AAA installation
 
-Clone repository into preferred IDE
-
-
-Run these three commands in IDE terminal
-
-> ### npx json-server --watch AAAdb.json
-
-> ### npm i react-scripts
-
-> ### npm start
-
+https://samuel-morgan-tyghe.github.io/AAA-Display-Example/
 
 ## What can be improved
 - Reduce Cumulative Layout Shift and create 'confirm' actions
-- Use an alternative Api to allow images to be stored, or configure fakeFile path to local path and bypass permissions
-- encrypt passwords
-
+- temporary solution to backend was using local storage to store users and passwords 
 
 ## Previews
 ![Preview](https://github.com/Samuel-Morgan-Tyghe/Api-Account-App/blob/master/PreviewGifs/Preview%20(4).gif)
